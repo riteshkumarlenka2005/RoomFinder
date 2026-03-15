@@ -398,7 +398,7 @@ if (!user) {
         </div>
       </header>
 
-      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <form onSubmit={handleSubmit} className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
@@ -407,11 +407,11 @@ if (!user) {
               Step {currentStep} of {steps.length}
             </span>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center overflow-x-auto pb-2 scrollbar-hide">
             {steps.map((step, index) => (
-              <div key={step.id} className="flex items-center">
+              <div key={step.id} className="flex items-center flex-shrink-0">
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-full flex items-center justify-center text-xs sm:text-sm font-medium ${
                     step.id <= currentStep ? "bg-blue-600 text-white" : "bg-gray-200 text-gray-600"
                   }`}
                 >
@@ -419,7 +419,7 @@ if (!user) {
                 </div>
                 {index < steps.length - 1 && (
                   <div
-                    className={`w-12 h-1 mx-2 ${step.id < currentStep ? "bg-blue-600" : "bg-gray-200"}`}
+                    className={`w-6 sm:w-12 h-1 mx-1 sm:mx-2 ${step.id < currentStep ? "bg-blue-600" : "bg-gray-200"}`}
                   />
                 )}
               </div>
@@ -432,7 +432,7 @@ if (!user) {
         </div>
 
         <Card>
-          <CardContent className="p-8">
+          <CardContent className="p-4 sm:p-6 md:p-8">
             {/* Step 1: Basic Info */}
             {currentStep === 1 && (
               <div className="space-y-6">

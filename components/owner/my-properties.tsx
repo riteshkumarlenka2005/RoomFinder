@@ -176,7 +176,7 @@ export default function MyProperties() {
     <div className="space-y-6">
       {/* HEADER */}
       <div className="flex flex-col sm:flex-row gap-4 justify-between">
-        <div className="flex flex-1 gap-3">
+        <div className="flex flex-col sm:flex-row flex-1 gap-3">
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
@@ -223,10 +223,13 @@ export default function MyProperties() {
             </TabsList>
           </Tabs>
 
-          <Link href="/list-property">
+          <Link href="/list-property" className="hidden sm:block">
             <Button className="bg-blue-600 text-white">Add Property</Button>
           </Link>
         </div>
+        <Link href="/list-property" className="block sm:hidden w-full">
+          <Button className="bg-blue-600 text-white w-full">Add Property</Button>
+        </Link>
       </div>
 
       {/* STATS */}
@@ -427,8 +430,8 @@ export default function MyProperties() {
                       </span>
                     </div>
 
-                    <div className="flex justify-between items-center mt-3">
-                      <div className="flex items-center gap-4">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mt-3 gap-3 sm:gap-0">
+                      <div className="flex flex-wrap items-center gap-2 sm:gap-4">
                         <p className="text-lg font-bold text-blue-600">
                           ₹{property.rent}
                         </p>
@@ -437,13 +440,13 @@ export default function MyProperties() {
                         </p>
                       </div>
 
-                      <div className="flex gap-2">
-                        <Button size="sm" variant="outline">
+                      <div className="flex gap-2 w-full sm:w-auto mt-2 sm:mt-0">
+                        <Button size="sm" variant="outline" className="flex-1 sm:flex-none">
                           Edit
                         </Button>
                         <Button
                           size="sm"
-                          className="bg-blue-600 hover:bg-blue-700 text-white"
+                          className="flex-1 sm:flex-none bg-blue-600 hover:bg-blue-700 text-white"
                         >
                           View Details
                         </Button>

@@ -131,34 +131,36 @@ export function MessagesInbox() {
               <>
                 {/* Chat Header */}
                 <div className="p-4 border-b flex items-center justify-between">
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
                     <Button
                       variant="ghost"
                       size="icon"
-                      className="md:hidden"
+                      className="md:hidden shrink-0"
                       onClick={() => setSelectedConversation(null)}
                     >
                       <ArrowLeft className="h-5 w-5" />
                     </Button>
-                    <Avatar className="h-10 w-10">
+                    <Avatar className="h-8 w-8 sm:h-10 sm:w-10 shrink-0">
                       <AvatarFallback className="bg-blue-100 text-blue-600">
                         {selectedConversation.avatar}
                       </AvatarFallback>
                     </Avatar>
-                    <div>
-                      <p className="font-medium">{selectedConversation.name}</p>
-                      <p className="text-xs text-muted-foreground">{selectedConversation.property}</p>
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium truncate text-sm sm:text-base">{selectedConversation.name}</p>
+                      <p className="text-xs text-muted-foreground truncate hidden sm:block">
+                        {selectedConversation.property}
+                      </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="icon">
-                      <Phone className="h-5 w-5" />
+                  <div className="flex items-center gap-1 sm:gap-2 shrink-0">
+                    <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-10 sm:w-10">
+                      <Phone className="h-4 w-4 sm:h-5 sm:w-5" />
                     </Button>
-                    <Button variant="ghost" size="icon">
-                      <Video className="h-5 w-5" />
+                    <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-10 sm:w-10">
+                      <Video className="h-4 w-4 sm:h-5 sm:w-5" />
                     </Button>
-                    <Button variant="ghost" size="icon">
-                      <MoreVertical className="h-5 w-5" />
+                    <Button variant="ghost" size="icon" className="h-8 w-8 sm:h-10 sm:w-10">
+                      <MoreVertical className="h-4 w-4 sm:h-5 sm:w-5" />
                     </Button>
                   </div>
                 </div>

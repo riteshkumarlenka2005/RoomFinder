@@ -290,7 +290,7 @@ export default function SearchPage() {
 
         <div className="flex gap-8">
           {/* Filters Sidebar */}
-          <div className={`w-80 ${showFilters ? "block" : "hidden"} lg:block`}>
+          <div className={`w-full lg:w-80 ${showFilters ? "block" : "hidden"} lg:block`}>
             <div className="bg-white rounded-lg shadow-sm p-6 sticky top-24">
               <h3 className="text-lg font-semibold mb-4">Filters</h3>
 
@@ -368,7 +368,7 @@ export default function SearchPage() {
 
           {/* RESULTS */}
           <div className="flex-1">
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
               <h2 className="text-2xl font-bold text-gray-900">{filteredRooms.length} Rooms Found</h2>
               <select className="border border-gray-300 rounded-md px-3 py-2" value={sortOption}
                 onChange={(e) => setSortOption(e.target.value)}>
@@ -383,9 +383,9 @@ export default function SearchPage() {
             <div className="space-y-6">
               {filteredRooms.map((room) => (
                 <Card key={room.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                  <div className="md:flex">
-                    <div className="md:w-1/3 relative">
-                      <img src={room.image || "/placeholder.svg"} alt={room.title} className="w-full h-64 md:h-full object-cover" />
+                  <div className="flex flex-col sm:flex-row">
+                    <div className="sm:w-1/3 relative">
+                      <img src={room.image || "/placeholder.svg"} alt={room.title} className="w-full h-48 sm:h-64 md:h-full object-cover" />
                       <Button size="sm" variant="outline" className="absolute top-2 right-2 bg-white/90 hover:bg-white">
                         <Heart className="w-4 h-4" />
                       </Button>
@@ -401,7 +401,7 @@ export default function SearchPage() {
                       )}
                     </div>
 
-                    <CardContent className="md:w-2/3 p-6">
+                    <CardContent className="sm:w-2/3 p-4 sm:p-6">
                       <div className="flex justify-between items-start mb-2">
                         <h3 className="font-semibold text-xl">{room.title}</h3>
                         <div className="text-right">

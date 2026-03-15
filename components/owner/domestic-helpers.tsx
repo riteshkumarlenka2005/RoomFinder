@@ -242,7 +242,7 @@ export function DomesticHelpers() {
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
               </div>
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 <Button variant="outline" size="sm">
                   <ChefHat className="h-4 w-4 mr-2" /> Cook
                 </Button>

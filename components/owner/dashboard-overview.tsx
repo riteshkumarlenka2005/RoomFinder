@@ -253,7 +253,7 @@ export function DashboardOverview() {
     {recentInquiries.map((inquiry) => (
       <div
         key={inquiry.id}
-        className="flex items-start gap-4 p-3 rounded-lg bg-muted/50"
+        className="flex flex-col sm:flex-row sm:items-start gap-3 sm:gap-4 p-3 rounded-lg bg-muted/50"
       >
         <Avatar className="h-10 w-10">
           <AvatarFallback className="bg-blue-100 text-blue-600 text-sm">
@@ -264,7 +264,7 @@ export function DashboardOverview() {
           </AvatarFallback>
         </Avatar>
 
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 pb-2 sm:pb-0">
           <div className="flex items-center gap-2">
             <p className="font-medium text-sm">{inquiry.name}</p>
             {inquiry.unread && (
@@ -281,14 +281,16 @@ export function DashboardOverview() {
           </p>
         </div>
 
-        <Button
-          size="sm"
-          variant="outline"
-          className="shrink-0 bg-transparent"
-          onClick={() => handleReply(inquiry)}   // <-- WhatsApp reply here
-        >
-          Reply
-        </Button>
+        <div className="w-full sm:w-auto flex justify-end">
+          <Button
+            size="sm"
+            variant="outline"
+            className="shrink-0 bg-transparent"
+            onClick={() => handleReply(inquiry)}   // <-- WhatsApp reply here
+          >
+            Reply
+          </Button>
+        </div>
       </div>
     ))}
   </CardContent>
@@ -311,7 +313,7 @@ export function DashboardOverview() {
               <div key={index} className="flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-lg border">
                 <div className="flex-1 min-w-0">
                   <p className="font-medium">{property.name}</p>
-                  <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
+                  <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-2 text-sm text-muted-foreground">
                     <span className="flex items-center gap-1">
                       <Eye className="h-4 w-4" /> {property.views} views
                     </span>
@@ -320,9 +322,9 @@ export function DashboardOverview() {
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 mt-2 sm:mt-0 w-full sm:w-auto">
                   <span className="text-sm text-muted-foreground">Occupancy</span>
-                  <div className="w-24 h-2 bg-muted rounded-full overflow-hidden">
+                  <div className="flex-1 sm:w-24 h-2 bg-muted rounded-full overflow-hidden">
                     <div className="h-full bg-blue-600 rounded-full" style={{ width: `${property.occupancy}%` }} />
                   </div>
                   <span className="text-sm font-medium">{property.occupancy}%</span>

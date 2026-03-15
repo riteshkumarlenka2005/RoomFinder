@@ -173,13 +173,13 @@ export function BookingsManagement() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input placeholder="Search bookings..." className="pl-10" />
         </div>
-        <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList>
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="active">Active</TabsTrigger>
-            <TabsTrigger value="pending">Pending</TabsTrigger>
-            <TabsTrigger value="upcoming">Upcoming</TabsTrigger>
-            <TabsTrigger value="completed">Completed</TabsTrigger>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+          <TabsList className="w-full flex justify-start overflow-x-auto overflow-y-hidden pb-1 scrollbar-hide">
+            <TabsTrigger value="all" className="flex-shrink-0">All</TabsTrigger>
+            <TabsTrigger value="active" className="flex-shrink-0">Active</TabsTrigger>
+            <TabsTrigger value="pending" className="flex-shrink-0">Pending</TabsTrigger>
+            <TabsTrigger value="upcoming" className="flex-shrink-0">Upcoming</TabsTrigger>
+            <TabsTrigger value="completed" className="flex-shrink-0">Completed</TabsTrigger>
           </TabsList>
         </Tabs>
       </div>
@@ -241,16 +241,16 @@ export function BookingsManagement() {
                 </div>
 
                 {/* Actions */}
-                <div className="flex items-center gap-2 sm:self-center">
+                <div className="flex flex-wrap items-center gap-2 sm:self-center mt-2 lg:mt-0">
                   {booking.status === "pending" && (
                     <>
-                      <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white gap-1">
+                      <Button size="sm" className="bg-green-600 hover:bg-green-700 text-white gap-1 flex-1 sm:flex-none">
                         <Check className="h-4 w-4" /> Accept
                       </Button>
                       <Button
                         size="sm"
                         variant="outline"
-                        className="text-red-600 border-red-200 hover:bg-red-50 gap-1 bg-transparent"
+                        className="text-red-600 border-red-200 hover:bg-red-50 gap-1 bg-transparent flex-1 sm:flex-none"
                       >
                         <X className="h-4 w-4" /> Reject
                       </Button>
@@ -258,7 +258,7 @@ export function BookingsManagement() {
                   )}
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button size="sm" variant="outline" className="gap-1 bg-transparent">
+                      <Button size="sm" variant="outline" className="gap-1 bg-transparent flex-1 sm:flex-none">
                         <Eye className="h-4 w-4" /> Details
                       </Button>
                     </DialogTrigger>

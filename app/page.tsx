@@ -54,19 +54,19 @@ export default function HomePage() {
       <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
 
         {/* Hero Section */}
-        <section className="relative py-20 px-4 sm:px-6 lg:px-8">
+        <section className="relative py-10 sm:py-16 md:py-20 px-4 sm:px-6 lg:px-8">
           <div className="max-w-7xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl font-bold text-gray-900 mb-4 sm:mb-6">
               Find Your Perfect <span className="text-blue-600"> Room</span>
             </h1>
 
-            <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg md:text-xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto px-2">
               Students के लिए बनाया गया platform। घर बैठे मिलेगा perfect room, Domestic helper, और सब कुछ detailed information के साथ।
             </p>
 
             {/* Search Bar */}
-            <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6">
-              <div className="grid md:grid-cols-4 gap-4">
+            <div className="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-4 sm:p-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
 
                 {/* LOCATION INPUT */}
                 <div className="relative">
@@ -179,14 +179,14 @@ export default function HomePage() {
         {/* Featured Rooms */}
         <section className="py-16 bg-gray-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900">Featured Rooms</h2>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6 sm:mb-8">
+              <h2 className="text-2xl sm:text-3xl font-bold text-gray-900">Featured Rooms</h2>
               <Link href="/search">
                 <Button variant="outline">View All Rooms</Button>
               </Link>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
               {featuredRooms.map((room) => {
                 const roomId = room.property_id || room.id
                 const images = Array.isArray(room.images) ? room.images : []
@@ -276,7 +276,7 @@ export default function HomePage() {
         {/* Footer */}
         <footer className="bg-gray-900 text-white py-12">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid md:grid-cols-4 gap-8">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
 
               <div>
                 <div className="flex items-center mb-4">

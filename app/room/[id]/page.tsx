@@ -251,38 +251,38 @@ export default function RoomDetailsPage({ params }: { params: { id: string } | a
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <Link href="/search" className="mr-4">
+              <Link href="/search" className="mr-2 sm:mr-4">
                 <Button variant="ghost" size="sm">
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Search
+                  <ArrowLeft className="w-4 h-4 sm:mr-2" />
+                  <span className="hidden sm:inline">Back to Search</span>
                 </Button>
               </Link>
               <Link href="/" className="flex items-center">
-                <Home className="h-8 w-8 text-blue-600" />
-                <span className="ml-2 text-xl font-bold text-gray-900">RoomFinder</span>
+                <Home className="h-7 w-7 sm:h-8 sm:w-8 text-blue-600" />
+                <span className="ml-1 sm:ml-2 text-lg sm:text-xl font-bold text-gray-900">RoomFinder</span>
               </Link>
             </div>
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 sm:space-x-4">
               <Button variant="outline" size="sm">
-                <Share2 className="w-4 h-4 mr-2" />
-                Share
+                <Share2 className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Share</span>
               </Button>
               <Button variant="outline" size="sm">
-                <Heart className="w-4 h-4 mr-2" />
-                Save
+                <Heart className="w-4 h-4 sm:mr-2" />
+                <span className="hidden sm:inline">Save</span>
               </Button>
             </div>
           </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid lg:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Main Content */}
-          <div className="lg:col-span-2 space-y-8">
+          <div className="lg:col-span-2 space-y-6 sm:space-y-8">
             {/* Image Gallery */}
             <Card className="overflow-hidden">
-  <div className="relative w-full h-96 bg-gray-200 rounded-xl overflow-hidden">
+  <div className="relative w-full h-56 sm:h-72 md:h-96 bg-gray-200 rounded-xl overflow-hidden">
 
     {/* Main Image */}
     <img
