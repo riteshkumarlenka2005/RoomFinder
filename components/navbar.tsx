@@ -104,10 +104,19 @@ export default function Navbar() {
       const loggedInUser = data?.user || null
       setUser(loggedInUser)
       
-      // If user is logged in, has no role, and is not already on the complete-profile page, redirect them
       if (loggedInUser && !loggedInUser.user_metadata?.role) {
         if (typeof window !== "undefined" && window.location.pathname !== "/complete-profile") {
-          window.location.href = "/complete-profile"
+          const urlParams = new URLSearchParams(window.location.search);
+          const source = urlParams.get("source");
+
+          if (source === "login") {
+            // Brand new user tried to log in -> reject and redirect to signup
+            await supabase.auth.signOut();
+            window.location.href = "/signup?error=AccountNotFound";
+          } else {
+            // Normal sign up -> complete profile
+            window.location.href = "/complete-profile";
+          }
         }
       }
     }
