@@ -1,0 +1,71 @@
+# Room Finder Platform
+
+A modern, fully responsive web application built to help users find rooms, PG accommodations, and apartments instantly. It also includes comprehensive features for property owners to list and manage their properties, and find domestic helpers (Maushi Services).
+
+## 🚀 Features
+
+### For Tenants / Users
+- **Advanced Search & Filtering**: Discover properties by location, type (PG, Apartment, Room), price, and amenities.
+- **Detailed Property Views**: High-quality image galleries, verified amenities lists, location mapping, and pricing details.
+- **Domestic Helpers (Maushi Services)**: Browse and hire verified domestic helpers, cooks, and caretakers based on skills, location, and ratings.
+- **Mobile Responsive**: Seamless experience on any device, from desktop to mobile.
+
+### For Property Owners
+- **Owner Dashboard**: Comprehensive management interface.
+- **Listing Management**: Post, edit, or remove property listings easily.
+- **Analytics Overview**: View property performance, total views, active inquiries, and occupancy rates.
+- **Bookings Management**: Track pending and active bookings in one place.
+- **Messages Inbox**: Direct communication with potential tenants via the platform.
+
+## 🛠 Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Library**: [React 19](https://react.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components**: [Shadcn UI](https://ui.shadcn.com/) (Radix UI + Tailwind)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **Backend/Database**: [Supabase](https://supabase.com/) (PostgreSQL + Built-in Auth & Storage)
+
+## 📦 Getting Started
+
+### Prerequisites
+
+Make sure you have Node.js and npm/pnpm installed on your machine.
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/riteshkumarlenka2005/RoomFinder.git
+   cd RoomFinder
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   # or
+   pnpm install
+   ```
+
+3. Configure Environment Variables:
+   Create a `.env` or `.env.local` file in the root directory and add your Supabase credentials:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   # or
+   pnpm dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## 📱 Responsiveness
+This application follows a mobile-first approach, ensuring a 100% responsive user experience. Custom adaptations including slide-out navigational menus, wrapping flex containers, horizontally scrollable tabs, and flexible cards guarantee full visibility across all phone sizes.
+
+## 🏗 Deployment
+This project is deployment-ready for platforms like Vercel. 
+Simply link the repository to your Vercel account, set the environment variables, and it will automatically build and deploy.

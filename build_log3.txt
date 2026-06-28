@@ -1,0 +1,51 @@
+﻿   Γû▓ Next.js 15.2.4
+   - Environments: .env
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Linting and checking validity of types ...
+   Collecting page data ...
+   Generating static pages (0/26) ...
+   Generating static pages (6/26) 
+   Generating static pages (12/26) 
+   Generating static pages (19/26) 
+ Γ£ô Generating static pages (26/26)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+Γöî Γùï /                                    5.34 kB         176 kB
+Γö£ Γùï /_not-found                            985 B         103 kB
+Γö£ Γùï /about                               2.42 kB         173 kB
+Γö£ ╞Æ /api/login                             159 B         102 kB
+Γö£ ╞Æ /api/owners                            438 B         158 kB
+Γö£ ╞Æ /api/properties                        159 B         102 kB
+Γö£ ╞Æ /api/signup                            435 B         158 kB
+Γö£ ╞Æ /api/test                              438 B         158 kB
+Γö£ ╞Æ /api/upload                            435 B         158 kB
+Γö£ Γùï /forgot-password                     3.47 kB         172 kB
+Γö£ Γùï /list-helper                         22.9 kB         214 kB
+Γö£ Γùï /list-property                       7.28 kB         179 kB
+Γö£ Γùï /login                               3.69 kB         176 kB
+Γö£ Γùï /maushi-services                     7.34 kB         178 kB
+Γö£ ╞Æ /maushi-services/[id]                6.88 kB         175 kB
+Γö£ Γùï /owner/dashboard                      149 kB         336 kB
+Γö£ Γùï /payment                             6.58 kB         116 kB
+Γö£ Γùï /pdf-generator                       11.2 kB         120 kB
+Γö£ Γùï /post-ad                               176 B         105 kB
+Γö£ Γùï /reset-password                      2.93 kB         168 kB
+Γö£ Γùï /reviews                             4.24 kB         172 kB
+Γö£ ╞Æ /room/[id]                           10.7 kB         179 kB
+Γö£ Γùï /search                              5.79 kB         181 kB
+Γö£ Γùï /signup                              4.81 kB         177 kB
+Γö£ Γùï /upload-test                           570 B         102 kB
+Γöö Γùï /verify-email                          159 B         102 kB
++ First Load JS shared by all             102 kB
+  Γö£ chunks/4636-3b2d490efbaa437f.js      46.2 kB
+  Γö£ chunks/e7327965-b5ad63ae1c5bbb29.js  53.2 kB
+  Γöö other shared chunks (total)          2.05 kB
+
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+
