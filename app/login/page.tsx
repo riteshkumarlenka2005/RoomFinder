@@ -59,7 +59,6 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   
   window.location.href = "/search"; // or "/" if you prefer home
 };
-
 const handleGoogleLogin = async () => {
   setIsLoading(true);
   setError("");
@@ -67,7 +66,7 @@ const handleGoogleLogin = async () => {
   const { error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${window.location.origin}/auth/callback`,
+      redirectTo: `${window.location.origin}/search`,
     },
   });
 
