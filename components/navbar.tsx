@@ -101,7 +101,15 @@ export default function Navbar() {
   useEffect(() => {
     const getUser = async () => {
       const { data } = await supabase.auth.getUser()
-      setUser(data?.user || null)
+      const loggedInUser = data?.user || null
+      setUser(loggedInUser)
+      
+      // If user is logged in, has no role, and is not already on the complete-profile page, redirect them
+      if (loggedInUser && !loggedInUser.user_metadata?.role) {
+        if (typeof window !== "undefined" && window.location.pathname !== "/complete-profile") {
+          window.location.href = "/complete-profile"
+        }
+      }
     }
 
     getUser()
