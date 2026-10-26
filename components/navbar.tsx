@@ -169,27 +169,15 @@ export default function Navbar() {
                 /* Subtle placeholder while checking cache on cold start (prevents FOUC) */
                 <div className="w-28 h-9" />
               ) : user ? (
-                <div className="flex items-center gap-3">
-                  {/* Direct Dashboard Button */}
-                  <Link href={dashboardUrl}>
-                    <Button 
-                      size="sm" 
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-medium flex items-center gap-1.5 shadow-sm h-9 px-3.5 transition-all"
-                    >
-                      <LayoutDashboard className="w-4 h-4" />
-                      <span>Dashboard</span>
-                    </Button>
-                  </Link>
-
-                  {/* Profile Avatar & Dropdown */}
-                  <div className="relative">
-                    <button
-                      onClick={() => setProfileOpen(!profileOpen)}
-                      className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-semibold uppercase ring-2 ring-blue-100 hover:ring-blue-300 transition-all shadow-sm"
-                      title={user.email}
-                    >
-                      {user.user_metadata?.full_name?.charAt(0) || user.email?.charAt(0) || "U"}
-                    </button>
+                /* Profile Avatar & Dropdown */
+                <div className="relative">
+                  <button
+                    onClick={() => setProfileOpen(!profileOpen)}
+                    className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-semibold uppercase ring-2 ring-blue-100 hover:ring-blue-300 transition-all shadow-sm"
+                    title={user.email}
+                  >
+                    {user.user_metadata?.full_name?.charAt(0) || user.email?.charAt(0) || "U"}
+                  </button>
 
                     {profileOpen && (
                       <div className="absolute right-0 mt-2 w-72 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden divide-y divide-gray-100">
@@ -250,7 +238,6 @@ export default function Navbar() {
                       </div>
                     )}
                   </div>
-                </div>
               ) : (
                 <>
                   <Link href="/login"><Button variant="outline" className="h-9">Login</Button></Link>
@@ -259,25 +246,15 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Mobile Auth & Navigation */}
             {loading ? (
               <div className="md:hidden w-8 h-8" />
             ) : user ? (
-              <div className="flex md:hidden items-center gap-2">
-                <Link href={dashboardUrl}>
-                  <Button size="sm" className="h-8 px-2.5 text-xs bg-blue-600 text-white flex items-center gap-1">
-                    <LayoutDashboard className="w-3.5 h-3.5" />
-                    <span>Dashboard</span>
-                  </Button>
-                </Link>
-
-                <button
-                  onClick={() => setProfileOpen(!profileOpen)}
-                  className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold uppercase text-xs"
-                >
-                  {user.user_metadata?.full_name?.charAt(0) || user.email?.charAt(0) || "U"}
-                </button>
-              </div>
+              <button
+                onClick={() => setProfileOpen(!profileOpen)}
+                className="md:hidden w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold uppercase text-xs"
+              >
+                {user.user_metadata?.full_name?.charAt(0) || user.email?.charAt(0) || "U"}
+              </button>
             ) : null}
 
             {/* Mobile Hamburger */}
