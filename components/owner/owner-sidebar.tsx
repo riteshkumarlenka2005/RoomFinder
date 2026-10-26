@@ -135,12 +135,21 @@ export function OwnerSidebar({ activeTab, setActiveTab }: OwnerSidebarProps) {
 
       {/* Bottom Actions */}
       <div className="p-4 space-y-1">
-        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
+        <button 
+          onClick={() => setActiveTab("profile")}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
+        >
           <Settings className="h-5 w-5" />
-          <span>Settings</span>
+          <span>Profile Settings</span>
         </button>
 
-        <button className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors">
+        <button 
+          onClick={async () => {
+            await supabase.auth.signOut();
+            window.location.href = "/login";
+          }}
+          className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
+        >
           <LogOut className="h-5 w-5" />
           <span>Logout</span>
         </button>

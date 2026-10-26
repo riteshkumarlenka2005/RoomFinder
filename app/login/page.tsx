@@ -56,8 +56,9 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     return;
   }
 
-  
-  window.location.href = "/search"; // or "/" if you prefer home
+  const urlParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : null;
+  const redirectTarget = urlParams?.get("redirect") || "/dashboard";
+  window.location.href = redirectTarget;
 };
 const handleGoogleLogin = async () => {
   setIsLoading(true);

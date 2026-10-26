@@ -1,94 +1,24 @@
-// "use client"
-
-// import Link from "next/link"
-// import { useState } from "react"
-// import { Home, ChevronDown } from "lucide-react"
-// import { Button } from "@/components/ui/button"
-
-// export default function Navbar() {
-//   const [open, setOpen] = useState(false)
-
-//   return (
-//     <header className="bg-white shadow-sm border-b relative">
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//         <div className="flex justify-between items-center h-16">
-
-//           {/* Logo */}
-//           <Link href="/" className="flex items-center">
-//             <Home className="h-8 w-8 text-blue-600" />
-//             <span className="ml-2 text-xl font-bold text-gray-900">RoomFinder</span>
-//           </Link>
-
-//           {/* Navigation */}
-//           <nav className="hidden md:flex space-x-8 items-center">
-
-//             <Link href="/search" className="text-gray-700 hover:text-blue-600">
-//               Search Rooms
-//             </Link>
-
-//             {/* Dropdown for List Property */}
-//             <div className="relative">
-//               <button
-//                 onClick={() => setOpen(!open)}
-//                 className="flex items-center text-gray-700 hover:text-blue-600 focus:outline-none"
-//               >
-//                 List Property
-//                 <ChevronDown className="ml-1 h-4 w-4" />
-//               </button>
-
-//               {open && (
-//                 <div className="absolute mt-2 w-44 bg-white border rounded-md shadow-lg z-50">
-//                   <Link
-//                     href="/list-property"
-//                     className="block px-4 py-2 hover:bg-gray-100 text-gray-700"
-//                     onClick={() => setOpen(false)}
-//                   >
-//                     Owner
-//                   </Link>
-//                   <Link
-//                     href="/list-helper"
-//                     className="block px-4 py-2 hover:bg-gray-100 text-gray-700"
-//                     onClick={() => setOpen(false)}
-//                   >
-//                     Domestic Helper
-//                   </Link>
-//                 </div>
-//               )}
-//             </div>
-
-//             <Link href="/maushi-services" className="text-gray-700 hover:text-blue-600">
-//               Domestic helper
-//             </Link>
-
-//             <Link href="/about" className="text-gray-700 hover:text-blue-600">
-//               About
-//             </Link>
-//           </nav>
-
-//           {/* Auth */}
-//           <div className="flex items-center space-x-4">
-//             <Link href="/login">
-//               <Button variant="outline">Login</Button>
-//             </Link>
-//             <Link href="/signup">
-//               <Button>Sign Up</Button>
-//             </Link>
-//           </div>
-
-//         </div>
-//       </div>
-//     </header>
-//   )
-// }
-
-
 "use client"
 
 import Link from "next/link"
 import { useState, useEffect } from "react"
-import { Home, ChevronDown, LogOut, HelpCircle, User, Menu, X } from "lucide-react"
+import { 
+  Home, 
+  ChevronDown, 
+  LogOut, 
+  HelpCircle, 
+  User, 
+  Menu, 
+  X, 
+  LayoutDashboard, 
+  ShieldCheck, 
+  Building, 
+  Sparkles,
+  Utensils
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { supabase } from "@/lib/supabase"
+import { getUserRole, getDashboardUrl, getRoleDisplayName, isSuperAdmin } from "@/lib/roles"
 
 export default function Navbar() {
   const [open, setOpen] = useState(false)
@@ -145,6 +75,19 @@ export default function Navbar() {
     setMobileListOpen(false)
   }
 
+  const userRole = getUserRole(user)
+  const dashboardUrl = getDashboardUrl(user)
+  const roleName = getRoleDisplayName(userRole)
+  const isSuper = isSuperAdmin(user?.email)
+
+  // Role Badge Styling helper
+  const getBadgeStyle = () => {
+    if (isSuper) return "bg-purple-100 text-purple-700 border-purple-200"
+    if (userRole === "owner") return "bg-emerald-100 text-emerald-700 border-emerald-200"
+    if (userRole === "maushi") return "bg-amber-100 text-amber-700 border-amber-200"
+    return "bg-blue-100 text-blue-700 border-blue-200"
+  }
+
   return (
     <header className="bg-white shadow-sm border-b relative z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -158,7 +101,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8 items-center">
-            <Link href="/search" className="text-gray-700 hover:text-blue-600">
+            <Link href="/search" className="text-gray-700 hover:text-blue-600 font-medium">
               Search Rooms
             </Link>
 
@@ -166,79 +109,146 @@ export default function Navbar() {
             <div className="relative">
               <button
                 onClick={() => setOpen(!open)}
-                className="flex items-center text-gray-700 hover:text-blue-600 focus:outline-none"
+                className="flex items-center text-gray-700 hover:text-blue-600 font-medium focus:outline-none"
               >
                 List Property
                 <ChevronDown className="ml-1 h-4 w-4" />
               </button>
 
               {open && (
-                <div className="absolute mt-2 w-44 bg-white border rounded-md shadow-lg z-50">
-                  <Link href="/list-property" className="block px-4 py-2 hover:bg-gray-100 text-gray-700" onClick={() => setOpen(false)}>
-                    Owner
+                <div className="absolute mt-2 w-48 bg-white border rounded-md shadow-lg z-50 py-1">
+                  <Link href="/list-property" className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm" onClick={() => setOpen(false)}>
+                    Owner (List Room)
                   </Link>
-                  <Link href="/list-helper" className="block px-4 py-2 hover:bg-gray-100 text-gray-700" onClick={() => setOpen(false)}>
-                    Domestic Helper
+                  <Link href="/list-helper" className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm" onClick={() => setOpen(false)}>
+                    Domestic Helper (Maushi)
                   </Link>
                 </div>
               )}
             </div>
 
-            <Link href="/maushi-services" className="text-gray-700 hover:text-blue-600">
-              Domestic helper
+            <Link href="/maushi-services" className="text-gray-700 hover:text-blue-600 font-medium">
+              Domestic Helper
             </Link>
 
-            <Link href="/about" className="text-gray-700 hover:text-blue-600">
+            <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium">
               About
             </Link>
           </nav>
 
-          {/* Right side — Desktop Auth + Mobile Hamburger */}
-          <div className="flex items-center gap-2 sm:gap-4">
+          {/* Right side — Desktop Auth + Mobile Profile/Hamburger */}
+          <div className="flex items-center gap-2 sm:gap-3">
 
             {/* Desktop Auth */}
-            <div className="hidden md:flex items-center space-x-4 relative">
+            <div className="hidden md:flex items-center space-x-3 relative">
               {user ? (
-                <div className="relative">
-                  <button
-                    onClick={() => setProfileOpen(!profileOpen)}
-                    className="w-10 h-10 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold uppercase"
-                  >
-                    {user.user_metadata?.full_name?.charAt(0) || "U"}
-                  </button>
+                <div className="flex items-center gap-3">
+                  {/* Direct Dashboard Button */}
+                  <Link href={dashboardUrl}>
+                    <Button 
+                      size="sm" 
+                      className="bg-blue-600 hover:bg-blue-700 text-white font-medium flex items-center gap-1.5 shadow-sm h-9 px-3.5 transition-all"
+                    >
+                      <LayoutDashboard className="w-4 h-4" />
+                      <span>Dashboard</span>
+                    </Button>
+                  </Link>
 
-                  {profileOpen && (
-                    <div className="absolute right-0 mt-2 w-64 bg-white border rounded-lg shadow-xl z-50 overflow-hidden">
-                      <div className="px-4 py-3 border-b">
-                        <p className="font-semibold text-gray-800">{user.user_metadata?.full_name || "User"}</p>
-                        <p className="text-sm text-gray-500">{user.email}</p>
+                  {/* Profile Avatar & Dropdown */}
+                  <div className="relative">
+                    <button
+                      onClick={() => setProfileOpen(!profileOpen)}
+                      className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-semibold uppercase ring-2 ring-blue-100 hover:ring-blue-300 transition-all"
+                      title={user.email}
+                    >
+                      {user.user_metadata?.full_name?.charAt(0) || user.email?.charAt(0) || "U"}
+                    </button>
+
+                    {profileOpen && (
+                      <div className="absolute right-0 mt-2 w-72 bg-white border border-gray-200 rounded-xl shadow-xl z-50 overflow-hidden divide-y divide-gray-100">
+                        {/* User Header */}
+                        <div className="px-4 py-3 bg-slate-50/70">
+                          <p className="font-semibold text-gray-900 truncate">
+                            {user.user_metadata?.full_name || "User"}
+                          </p>
+                          <p className="text-xs text-gray-500 truncate mb-2">{user.email}</p>
+                          <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${getBadgeStyle()}`}>
+                            {roleName}
+                          </span>
+                        </div>
+
+                        {/* Navigation Links */}
+                        <div className="py-2">
+                          <Link 
+                            href={dashboardUrl} 
+                            className="flex items-center gap-2.5 px-4 py-2.5 hover:bg-blue-50 text-blue-700 font-medium text-sm transition-colors"
+                            onClick={() => setProfileOpen(false)}
+                          >
+                            <LayoutDashboard className="w-4 h-4 text-blue-600" />
+                            <span>My Dashboard</span>
+                          </Link>
+
+                          {/* Extra link for Super Admin panel */}
+                          {isSuper && (
+                            <Link 
+                              href="/dashboard/admin" 
+                              className="flex items-center gap-2.5 px-4 py-2.5 hover:bg-purple-50 text-purple-700 font-medium text-sm transition-colors"
+                              onClick={() => setProfileOpen(false)}
+                            >
+                              <ShieldCheck className="w-4 h-4 text-purple-600" />
+                              <span>Super Admin Panel</span>
+                            </Link>
+                          )}
+
+                          <Link 
+                            href="/about" 
+                            className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm transition-colors"
+                            onClick={() => setProfileOpen(false)}
+                          >
+                            <HelpCircle className="w-4 h-4 text-gray-500" />
+                            <span>Help & FAQs</span>
+                          </Link>
+                        </div>
+
+                        {/* Logout */}
+                        <div className="py-1 bg-gray-50/50">
+                          <button 
+                            onClick={handleLogout} 
+                            className="flex w-full items-center gap-2 px-4 py-2.5 hover:bg-red-50 text-red-600 text-sm font-medium transition-colors"
+                          >
+                            <LogOut className="w-4 h-4" />
+                            <span>Logout</span>
+                          </button>
+                        </div>
                       </div>
-                      <div className="py-2">
-                        <Link href="/help" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-gray-700" onClick={() => setProfileOpen(false)}>
-                          <HelpCircle className="w-4 h-4" /> Help
-                        </Link>
-                        <button onClick={handleLogout} className="flex w-full items-center gap-2 px-4 py-2 hover:bg-red-50 text-red-600">
-                          <LogOut className="w-4 h-4" /> Logout
-                        </button>
-                      </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
                 </div>
               ) : (
                 <>
-                  <Link href="/login"><Button variant="outline">Login</Button></Link>
-                  <Link href="/signup"><Button>Sign Up</Button></Link>
+                  <Link href="/login"><Button variant="outline" className="h-9">Login</Button></Link>
+                  <Link href="/signup"><Button className="h-9">Sign Up</Button></Link>
                 </>
               )}
             </div>
+
+            {/* Mobile: Direct Dashboard Button (if logged in) */}
+            {user && (
+              <Link href={dashboardUrl} className="md:hidden">
+                <Button size="sm" className="h-8 px-2.5 text-xs bg-blue-600 text-white flex items-center gap-1">
+                  <LayoutDashboard className="w-3.5 h-3.5" />
+                  <span>Dashboard</span>
+                </Button>
+              </Link>
+            )}
 
             {/* Mobile: Profile icon (if logged in) */}
             {user && (
               <button
                 onClick={() => setProfileOpen(!profileOpen)}
-                className="md:hidden w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold uppercase text-sm"
+                className="md:hidden w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold uppercase text-xs"
               >
-                {user.user_metadata?.full_name?.charAt(0) || "U"}
+                {user.user_metadata?.full_name?.charAt(0) || user.email?.charAt(0) || "U"}
               </button>
             )}
 
@@ -246,6 +256,7 @@ export default function Navbar() {
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100"
+              aria-label="Toggle Navigation"
             >
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -256,17 +267,55 @@ export default function Navbar() {
 
       {/* Mobile Profile Dropdown */}
       {profileOpen && user && (
-        <div className="md:hidden absolute right-4 top-16 w-64 bg-white border rounded-lg shadow-xl z-50 overflow-hidden">
-          <div className="px-4 py-3 border-b">
-            <p className="font-semibold text-gray-800">{user.user_metadata?.full_name || "User"}</p>
-            <p className="text-sm text-gray-500 truncate">{user.email}</p>
+        <div className="md:hidden absolute right-4 top-16 w-72 bg-white border border-gray-200 rounded-xl shadow-2xl z-50 overflow-hidden divide-y divide-gray-100">
+          <div className="px-4 py-3 bg-slate-50">
+            <p className="font-semibold text-gray-900 truncate">
+              {user.user_metadata?.full_name || "User"}
+            </p>
+            <p className="text-xs text-gray-500 truncate mb-1">{user.email}</p>
+            <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${getBadgeStyle()}`}>
+              {roleName}
+            </span>
           </div>
+
           <div className="py-2">
-            <Link href="/help" className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 text-gray-700" onClick={() => setProfileOpen(false)}>
-              <HelpCircle className="w-4 h-4" /> Help
+            <Link 
+              href={dashboardUrl} 
+              className="flex items-center gap-2.5 px-4 py-2.5 hover:bg-blue-50 text-blue-700 font-medium text-sm" 
+              onClick={() => setProfileOpen(false)}
+            >
+              <LayoutDashboard className="w-4 h-4 text-blue-600" />
+              <span>Go to My Dashboard</span>
             </Link>
-            <button onClick={handleLogout} className="flex w-full items-center gap-2 px-4 py-2 hover:bg-red-50 text-red-600">
-              <LogOut className="w-4 h-4" /> Logout
+
+            {isSuper && (
+              <Link 
+                href="/dashboard/admin" 
+                className="flex items-center gap-2.5 px-4 py-2.5 hover:bg-purple-50 text-purple-700 font-medium text-sm"
+                onClick={() => setProfileOpen(false)}
+              >
+                <ShieldCheck className="w-4 h-4 text-purple-600" />
+                <span>Super Admin Panel</span>
+              </Link>
+            )}
+
+            <Link 
+              href="/about" 
+              className="flex items-center gap-2.5 px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm" 
+              onClick={() => setProfileOpen(false)}
+            >
+              <HelpCircle className="w-4 h-4" />
+              <span>Help & FAQs</span>
+            </Link>
+          </div>
+
+          <div className="py-1 bg-gray-50">
+            <button 
+              onClick={handleLogout} 
+              className="flex w-full items-center gap-2 px-4 py-2.5 hover:bg-red-50 text-red-600 text-sm font-medium"
+            >
+              <LogOut className="w-4 h-4" />
+              <span>Logout</span>
             </button>
           </div>
         </div>
@@ -276,6 +325,20 @@ export default function Navbar() {
       {mobileMenuOpen && (
         <div className="md:hidden bg-white border-t shadow-lg">
           <nav className="px-4 py-4 space-y-1">
+            {user && (
+              <Link 
+                href={dashboardUrl} 
+                className="flex items-center justify-between px-3 py-3 rounded-lg bg-blue-50 text-blue-700 font-semibold mb-2" 
+                onClick={closeMobile}
+              >
+                <span className="flex items-center gap-2">
+                  <LayoutDashboard className="w-5 h-5 text-blue-600" />
+                  My Dashboard ({roleName})
+                </span>
+                <span className="text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">Open</span>
+              </Link>
+            )}
+
             <Link href="/search" className="block px-3 py-3 rounded-md text-gray-700 hover:bg-blue-50 hover:text-blue-600 font-medium" onClick={closeMobile}>
               Search Rooms
             </Link>
@@ -292,10 +355,10 @@ export default function Navbar() {
               {mobileListOpen && (
                 <div className="pl-6 space-y-1">
                   <Link href="/list-property" className="block px-3 py-2 rounded-md text-gray-600 hover:bg-gray-100" onClick={closeMobile}>
-                    Owner
+                    Owner (List Room)
                   </Link>
                   <Link href="/list-helper" className="block px-3 py-2 rounded-md text-gray-600 hover:bg-gray-100" onClick={closeMobile}>
-                    Domestic Helper
+                    Domestic Helper (Maushi)
                   </Link>
                 </div>
               )}
