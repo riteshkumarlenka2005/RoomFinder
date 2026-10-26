@@ -1,7 +1,7 @@
 // lib/roles.ts
 // Centralized Role and Authorization Management for RoomFinder
 
-export const SUPER_ADMIN_EMAIL = "lenkariteshkumar25@gmail.com";
+export const SUPER_ADMIN_EMAIL = "lenkariteshkumar2005@gmail.com";
 
 export type UserRole = "student" | "owner" | "maushi" | "admin";
 

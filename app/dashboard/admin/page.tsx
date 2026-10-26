@@ -50,7 +50,7 @@ export default function SuperAdminDashboard() {
 
   // Users State
   const [usersList, setUsersList] = useState([
-    { id: "U-1", name: "Ritesh Kumar Lenka", email: "lenkariteshkumar25@gmail.com", role: "admin", status: "Super Admin", joined: "12 Oct 2024" },
+    { id: "U-1", name: "Ritesh Kumar Lenka", email: "lenkariteshkumar2005@gmail.com", role: "admin", status: "Super Admin", joined: "12 Oct 2024" },
     { id: "U-2", name: "Amit Sharma", email: "amit.sharma@example.com", role: "student", status: "Active Tenant", joined: "01 Jan 2025" },
     { id: "U-3", name: "Rajesh Kumar", email: "rajesh.k@example.com", role: "owner", status: "Property Owner", joined: "15 Jan 2025" },
     { id: "U-4", name: "Sunita Devi", email: "sunita.helper@example.com", role: "maushi", status: "Verified Helper", joined: "20 Jan 2025" },
@@ -328,7 +328,7 @@ export default function SuperAdminDashboard() {
                   <div className="p-3 bg-slate-900/70 rounded-xl border border-slate-700 flex justify-between items-center">
                     <div>
                       <p className="font-semibold text-white">Super Admin Authority</p>
-                      <p className="text-slate-400">Hardcoded email whitelist: lenkariteshkumar25@gmail.com</p>
+                      <p className="text-slate-400">Hardcoded email whitelist: {SUPER_ADMIN_EMAIL}</p>
                     </div>
                     <Badge className="bg-purple-600 text-white">Protected</Badge>
                   </div>
