@@ -20,50 +20,74 @@ import { Button } from "@/components/ui/button"
 import { supabase } from "@/lib/supabase"
 import { getUserRole, getDashboardUrl, getRoleDisplayName, isSuperAdmin } from "@/lib/roles"
 
+// Global in-memory cache to prevent flashing on page transitions
+let cachedUser: any = undefined
+
 export default function Navbar() {
   const [open, setOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [mobileListOpen, setMobileListOpen] = useState(false)
   const [profileOpen, setProfileOpen] = useState(false)
-  const [user, setUser] = useState<any>(null)
 
-  // ✅ Detect login session
+  // Initialize from cache if already loaded
+  const [user, setUser] = useState<any>(cachedUser || null)
+  const [loading, setLoading] = useState<boolean>(cachedUser === undefined)
+
   useEffect(() => {
-    const getUser = async () => {
-      const { data } = await supabase.auth.getUser()
-      const loggedInUser = data?.user || null
-      setUser(loggedInUser)
-      
-      if (loggedInUser && !loggedInUser.user_metadata?.role) {
-        if (typeof window !== "undefined" && window.location.pathname !== "/complete-profile") {
-          const urlParams = new URLSearchParams(window.location.search);
-          const source = urlParams.get("source");
+    let isMounted = true
 
-          if (source === "login") {
-            // Brand new user tried to log in -> reject and redirect to signup
-            await supabase.auth.signOut();
-            window.location.href = "/signup?error=AccountNotFound";
-          } else {
-            // Normal sign up -> complete profile
-            window.location.href = "/complete-profile";
+    const syncSession = async () => {
+      try {
+        // 1. Fast synchronous check from local storage
+        const { data: sessionData } = await supabase.auth.getSession()
+        const sessionUser = sessionData?.session?.user || null
+
+        if (isMounted) {
+          cachedUser = sessionUser
+          setUser(sessionUser)
+          setLoading(false)
+        }
+
+        // 2. Profile completion check (ignore for super admin)
+        if (sessionUser && !isSuperAdmin(sessionUser.email) && !sessionUser.user_metadata?.role) {
+          if (typeof window !== "undefined" && window.location.pathname !== "/complete-profile") {
+            const urlParams = new URLSearchParams(window.location.search)
+            const source = urlParams.get("source")
+
+            if (source === "login") {
+              await supabase.auth.signOut()
+              cachedUser = null
+              window.location.href = "/signup?error=AccountNotFound"
+            } else {
+              window.location.href = "/complete-profile"
+            }
           }
         }
+      } catch (err) {
+        console.error("Auth session sync error:", err)
+        if (isMounted) setLoading(false)
       }
     }
 
-    getUser()
+    syncSession()
 
-    const { data: listener } = supabase.auth.onAuthStateChange(() => {
-      getUser()
+    // Listen for auth state changes
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      const activeUser = session?.user || null
+      cachedUser = activeUser
+      setUser(activeUser)
+      setLoading(false)
     })
 
     return () => {
+      isMounted = false
       listener.subscription.unsubscribe()
     }
   }, [])
 
-  // ✅ Logout handler
+  // Logout handler
   const handleLogout = async () => {
+    cachedUser = null
     await supabase.auth.signOut()
     setUser(null)
     window.location.href = "/login"
@@ -82,10 +106,10 @@ export default function Navbar() {
 
   // Role Badge Styling helper
   const getBadgeStyle = () => {
-    if (isSuper) return "bg-purple-100 text-purple-700 border-purple-200"
-    if (userRole === "owner") return "bg-emerald-100 text-emerald-700 border-emerald-200"
-    if (userRole === "maushi") return "bg-amber-100 text-amber-700 border-amber-200"
-    return "bg-blue-100 text-blue-700 border-blue-200"
+    if (isSuper) return "bg-purple-50 text-purple-700 border-purple-200"
+    if (userRole === "owner") return "bg-emerald-50 text-emerald-700 border-emerald-200"
+    if (userRole === "maushi") return "bg-amber-50 text-amber-700 border-amber-200"
+    return "bg-blue-50 text-blue-700 border-blue-200"
   }
 
   return (
@@ -101,7 +125,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-8 items-center">
-            <Link href="/search" className="text-gray-700 hover:text-blue-600 font-medium">
+            <Link href="/search" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Search Rooms
             </Link>
 
@@ -109,14 +133,14 @@ export default function Navbar() {
             <div className="relative">
               <button
                 onClick={() => setOpen(!open)}
-                className="flex items-center text-gray-700 hover:text-blue-600 font-medium focus:outline-none"
+                className="flex items-center text-gray-700 hover:text-blue-600 font-medium focus:outline-none transition-colors"
               >
                 List Property
                 <ChevronDown className="ml-1 h-4 w-4" />
               </button>
 
               {open && (
-                <div className="absolute mt-2 w-48 bg-white border rounded-md shadow-lg z-50 py-1">
+                <div className="absolute mt-2 w-48 bg-white border border-gray-200 rounded-xl shadow-lg z-50 py-1.5 overflow-hidden">
                   <Link href="/list-property" className="block px-4 py-2 hover:bg-gray-100 text-gray-700 text-sm" onClick={() => setOpen(false)}>
                     Owner (List Room)
                   </Link>
@@ -127,11 +151,11 @@ export default function Navbar() {
               )}
             </div>
 
-            <Link href="/maushi-services" className="text-gray-700 hover:text-blue-600 font-medium">
+            <Link href="/maushi-services" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               Domestic Helper
             </Link>
 
-            <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium">
+            <Link href="/about" className="text-gray-700 hover:text-blue-600 font-medium transition-colors">
               About
             </Link>
           </nav>
@@ -139,9 +163,12 @@ export default function Navbar() {
           {/* Right side — Desktop Auth + Mobile Profile/Hamburger */}
           <div className="flex items-center gap-2 sm:gap-3">
 
-            {/* Desktop Auth */}
+            {/* Desktop Auth Section */}
             <div className="hidden md:flex items-center space-x-3 relative">
-              {user ? (
+              {loading ? (
+                /* Subtle placeholder while checking cache on cold start (prevents FOUC) */
+                <div className="w-28 h-9" />
+              ) : user ? (
                 <div className="flex items-center gap-3">
                   {/* Direct Dashboard Button */}
                   <Link href={dashboardUrl}>
@@ -158,7 +185,7 @@ export default function Navbar() {
                   <div className="relative">
                     <button
                       onClick={() => setProfileOpen(!profileOpen)}
-                      className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-semibold uppercase ring-2 ring-blue-100 hover:ring-blue-300 transition-all"
+                      className="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-semibold uppercase ring-2 ring-blue-100 hover:ring-blue-300 transition-all shadow-sm"
                       title={user.email}
                     >
                       {user.user_metadata?.full_name?.charAt(0) || user.email?.charAt(0) || "U"}
@@ -232,25 +259,26 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* Mobile: Direct Dashboard Button (if logged in) */}
-            {user && (
-              <Link href={dashboardUrl} className="md:hidden">
-                <Button size="sm" className="h-8 px-2.5 text-xs bg-blue-600 text-white flex items-center gap-1">
-                  <LayoutDashboard className="w-3.5 h-3.5" />
-                  <span>Dashboard</span>
-                </Button>
-              </Link>
-            )}
+            {/* Mobile Auth & Navigation */}
+            {loading ? (
+              <div className="md:hidden w-8 h-8" />
+            ) : user ? (
+              <div className="flex md:hidden items-center gap-2">
+                <Link href={dashboardUrl}>
+                  <Button size="sm" className="h-8 px-2.5 text-xs bg-blue-600 text-white flex items-center gap-1">
+                    <LayoutDashboard className="w-3.5 h-3.5" />
+                    <span>Dashboard</span>
+                  </Button>
+                </Link>
 
-            {/* Mobile: Profile icon (if logged in) */}
-            {user && (
-              <button
-                onClick={() => setProfileOpen(!profileOpen)}
-                className="md:hidden w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold uppercase text-xs"
-              >
-                {user.user_metadata?.full_name?.charAt(0) || user.email?.charAt(0) || "U"}
-              </button>
-            )}
+                <button
+                  onClick={() => setProfileOpen(!profileOpen)}
+                  className="w-8 h-8 rounded-full bg-blue-600 text-white flex items-center justify-center font-semibold uppercase text-xs"
+                >
+                  {user.user_metadata?.full_name?.charAt(0) || user.email?.charAt(0) || "U"}
+                </button>
+              </div>
+            ) : null}
 
             {/* Mobile Hamburger */}
             <button
@@ -373,7 +401,7 @@ export default function Navbar() {
             </Link>
 
             {/* Mobile Auth Buttons (if not logged in) */}
-            {!user && (
+            {!loading && !user && (
               <div className="pt-4 border-t mt-4 flex gap-3">
                 <Link href="/login" className="flex-1" onClick={closeMobile}>
                   <Button variant="outline" className="w-full">Login</Button>
